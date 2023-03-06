@@ -2,12 +2,16 @@ package org.zodiac.coffee.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.zodiac.coffee.model.Product;
+import org.zodiac.coffee.model.ProductEvent;
 import org.zodiac.coffee.repository.ProductRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @RestController
 @RequestMapping("/products")
@@ -55,5 +59,11 @@ public class ProductController {
 	@DeleteMapping
 	public Mono<Void> deleteAllProducts() {
 		return productRepository.deleteAll();
+	}
+
+	@GetMapping(path = "/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<ProductEvent> getProductEvents() {
+		return Flux.interval(Duration.ofSeconds(1))
+				.map(val -> new ProductEvent().setId(val).setType("Product event"));
 	}
 }
