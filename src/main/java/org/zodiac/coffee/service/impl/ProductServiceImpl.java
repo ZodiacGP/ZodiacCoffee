@@ -2,7 +2,6 @@ package org.zodiac.coffee.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.zodiac.coffee.model.Product;
 import org.zodiac.coffee.model.ProductEvent;
 import org.zodiac.coffee.repository.ProductRepository;
@@ -43,8 +42,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Mono<Void> deleteProduct(@PathVariable String id) {
-		return productRepository.deleteById(id);
+	public Mono<Void> deleteProduct(String id) {
+		return productRepository.findById(id)
+				.flatMap(productRepository::delete);
 	}
 
 	@Override

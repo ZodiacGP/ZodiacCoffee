@@ -43,9 +43,9 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/{id}")
-	public Mono<ResponseEntity<Void>> deleteProduct(@PathVariable String id) {
+	public Mono<ResponseEntity<Object>> deleteProduct(@PathVariable String id) {
 		return productService.deleteProduct(id)
-				.map(ResponseEntity::ok)
+				.then(Mono.just(ResponseEntity.ok().build()))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 	}
 
