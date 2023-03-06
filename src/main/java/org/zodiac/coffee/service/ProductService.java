@@ -1,5 +1,6 @@
 package org.zodiac.coffee.service;
 
+import org.springframework.http.ResponseEntity;
 import org.zodiac.coffee.model.Product;
 import org.zodiac.coffee.model.ProductEvent;
 import reactor.core.publisher.Flux;
@@ -14,7 +15,7 @@ public interface ProductService {
 
 	Mono<Product> updateProduct(String id, Product product);
 
-	Mono<Void> deleteProduct(String id);
+	Mono<ResponseEntity<Void>> deleteProduct(String id);
 
 	Mono<Void> deleteAllProducts();
 

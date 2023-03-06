@@ -1,6 +1,7 @@
 package org.zodiac.coffee.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.zodiac.coffee.model.Product;
 import org.zodiac.coffee.model.ProductEvent;
@@ -42,9 +43,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Mono<Void> deleteProduct(String id) {
+	public Mono<ResponseEntity<Void>> deleteProduct(String id) {
 		return productRepository.findById(id)
-				.flatMap(productRepository::delete);
+				.flatMap(entity -> productRepository.delete(entity)
+						.then(Mono.just(ResponseEntity.ok().build()))
+				);
 	}
 
 	@Override
